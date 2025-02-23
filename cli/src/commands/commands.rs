@@ -1,52 +1,28 @@
-use std::error::Error;
 use clap::{Parser, Subcommand};
 
-#[derive(Parser)]
-#[command(name = "mycli")]
-#[command(about = "Un exemple de CLI")]
+#[derive(Parser, Debug)]
+#[command(
+    name = "hyprwrkspace-cli",
+    version = "1.0",
+    about = "CLI for managing Hyprland workspaces"
+)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
 }
 
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Ajoute un nouvel élément
-    Add {
-        /// Le nom de l'élément à ajouter
+    /// Focus on a workspace or application
+    Focus {
+        /// App name
         name: String,
-        /// Le nom2 de l'élément à ajouter
-        test: u32,
-        /// Description optionnelle
+        /// Force the focus
         #[arg(short, long)]
-        description: Option<String>,
-    },
-    /// Liste les éléments existants
-    List {
-        /// Filtrer par un pattern
-        #[arg(short, long)]
-        pattern: Option<String>,
-    },
-}
+        force: bool,
 
-impl Commands {
-    pub fn execute(&self) -> Result<(), Box<dyn Error>> {
-        match self {
-            Commands::Add { name, test, description } => {
-                println!("Ajout de {} et {}", name, test);
-                if let Some(desc) = description {
-                    println!("avec la description: {}", desc);
-                }
-                Ok(())
-            }
-            Commands::List { pattern } => {
-                if let Some(p) = pattern {
-                    println!("Liste filtrée par: {}", p);
-                } else {
-                    println!("Liste complète");
-                }
-                Ok(())
-            }
-        }
-    }
+        /// Additional arguments passed to the executable
+        #[arg(last = true)]
+        extra_args: Vec<String>,
+    },
 }
