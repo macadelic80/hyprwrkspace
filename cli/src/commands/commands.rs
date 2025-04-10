@@ -76,6 +76,7 @@ fn command_focus(
         name, command, force, extra_args
     );
     if !already_started(name.to_string()) {
+        println!("need to be opened");
         let _ = dispatch_hyprctl(
             "exec",
             vec![format!("[workspace special:{name}] {command}")],

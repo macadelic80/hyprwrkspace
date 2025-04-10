@@ -31,7 +31,7 @@ pub struct Window {
     pub address: String,
     pub mapped: bool,
     pub hidden: bool,
-    pub at: [u32; 2],
+    pub at: [i32; 2],
     pub size: [u32; 2],
     pub workspace: MinimalWorkspace,
     pub floating: bool,
